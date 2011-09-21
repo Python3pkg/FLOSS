@@ -42,7 +42,7 @@ class Calculator:
         else:
             return (None, None, None)
 
-    '''This functions calculates the operation '''
+    '''This function calculates the operation '''
     def makingCalc (self, op1, operation, op2):
         if operation == "-":
             print (op1 - op2)
