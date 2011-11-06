@@ -34,16 +34,20 @@ class ConnectionManager:
     #Timeout to use un the remote file reading
     _TIMEOUT = 5000
     
+    _rawCode = None
+    
     """This function reads the website passed by parameter"""
     def readingRemoteFile(self, url):
         
         _opener = urllib2.build_opener()
         _opener.addheaders = [(Settings.USER_AGENT_TAG, Settings.USER_AGENT_CONTENT)]
-        raw_code = _opener.open(url, None, self._TIMEOUT).read()
+        self._rawCode = _opener.open(url, None, self._TIMEOUT).read()
         
-        print "Raw code: ", raw_code
+        #print "Raw code: ", raw_code
         
     
+    def getRawCode (self):
+        return self._rawCode
         
     
 

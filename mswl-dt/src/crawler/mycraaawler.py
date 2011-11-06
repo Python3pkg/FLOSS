@@ -21,6 +21,8 @@
 '''
 
 from pymycraaawler import ClassWiring
+from pymycraaawler import HtmlParser
+from lxml.doctestcompare import _html_parser
 
 
 '''
@@ -37,6 +39,7 @@ class MyCraaawler:
     #Objects to use
     _connectionManager = None
     _checkArguments = None
+    _htmlParser = None
     
     def __init__(self):
         
@@ -48,6 +51,8 @@ class MyCraaawler:
         self._connectionManager = ClassWiring.ClassWiring().getConnectionManager()
         self._connectionManager.readingRemoteFile(self._checkArguments.getUrl())
                 
+        self._htmlParser = HtmlParser.HtmlParser(self._connectionManager.getRawCode())
+        self._htmlParser.parseLinks()        
 
 
 def main():
