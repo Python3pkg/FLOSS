@@ -18,8 +18,8 @@
 '''
 
 
-import urllib2
 from Settings import Settings
+import urllib2
 
 '''
 Created on 05/11/2011
@@ -36,18 +36,32 @@ class ConnectionManager:
     
     _rawCode = None
     
-    """This function reads the website passed by parameter"""
+    """This function reads the website passed by parameter and sets the 
+    rawCode parameter with the html code in brute """
     def readingRemoteFile(self, url):
         
         _opener = urllib2.build_opener()
         _opener.addheaders = [(Settings.USER_AGENT_TAG, Settings.USER_AGENT_CONTENT)]
-        self._rawCode = _opener.open(url, None, self._TIMEOUT).read()
         
-        #print "Raw code: ", raw_code
+        try:            
+            self._rawCode = _opener.open(url, None, self._TIMEOUT).read()
+        except Exception:
+            print "Exception: ", Exception.message
+            self._rawCode = None                
         
     
+    """ Gets the raw code """
     def getRawCode (self):
         return self._rawCode
+        
+        
+    """ This function is used to visit all links provided in the list recursively until
+    reach the deep specification """
+    def visitAllLinks (self, links, deep):        
+        pass
+            
+            
+        
         
     
 

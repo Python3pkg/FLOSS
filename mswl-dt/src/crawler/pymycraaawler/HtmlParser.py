@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this file.  If not, see <http://www.gnu.org/licenses/>.
 '''
+from Settings import Settings
 
 '''
 Created on 06/11/2011
@@ -34,16 +35,17 @@ class HtmlParser:
     
     """ Consturctor """
     def __init__ (self, rawCode):
+        
         self._rawCode = rawCode
     
     
-    """ Parse the links of the used raw code into a list """
+    """ Parse the links of the used rawCode into a list """
     def parseLinks (self):
         
         if (self._rawCode != None):
             soupCode = Soup(self._rawCode)
-            links = [link['href'] for link 
-                     in soupCode.findAll('a') if link.has_key('href')]                                         
+            links = [link[Settings.HREF] for link 
+                     in soupCode.findAll(Settings.A) if link.has_key(Settings.HREF)]                                         
             print "Links: ", links
             
             for link in links:
@@ -51,13 +53,14 @@ class HtmlParser:
                 
             self.getRightLinks(links)
         
+    """ Gets the right links of the links list """
     def getRightLinks (self, links):
         
         print "----- parse links ----"
-        
+                
         if links != None or len(links)>0:
             for link in links:
-                if (str(link).startswith("http://") or (str(link).startswith("https://"))):
+                if (str(link).startswith(Settings.HTTP) or (str(link).startswith(Settings.HTTPS))):
                     print link
              
         

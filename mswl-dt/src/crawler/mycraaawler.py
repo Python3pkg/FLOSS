@@ -22,7 +22,6 @@
 
 from pymycraaawler import ClassWiring
 from pymycraaawler import HtmlParser
-from lxml.doctestcompare import _html_parser
 
 
 '''
@@ -51,6 +50,7 @@ class MyCraaawler:
         self._connectionManager = ClassWiring.ClassWiring().getConnectionManager()
         self._connectionManager.readingRemoteFile(self._checkArguments.getUrl())
                 
+        #Parses the raw html coded provided
         self._htmlParser = HtmlParser.HtmlParser(self._connectionManager.getRawCode())
         self._htmlParser.parseLinks()        
 

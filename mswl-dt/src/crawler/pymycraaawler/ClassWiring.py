@@ -20,6 +20,7 @@
 
 from ConnectionManager import ConnectionManager
 from CheckArguments import CheckArguments
+from crawler.pymycraaawler.FileManager import FileManager
 
 
 '''
@@ -36,6 +37,7 @@ class ClassWiring:
     #Objects  
     _connectionManager = None
     _checkArguments = None
+    _fileManager = None
     
     """ This function creates the object ConnectionManager if doesn't exist and return it """
     def getConnectionManager (self):
@@ -53,4 +55,13 @@ class ClassWiring:
             self._checkArguments = CheckArguments()
             
         return self._checkArguments
+
+
+    """ Creates if not exists the FileManager object to use along the application """
+    def getFileManager (self):
+        
+        if self._fileManager == None:
+            self._fileManager = FileManager()
+        
+        return self._fileManager
             
