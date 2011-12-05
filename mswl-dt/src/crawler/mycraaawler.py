@@ -38,6 +38,7 @@ different modules created in the pymycraaawler folder
 class MyCraaawler:
     
     #Objects to use
+    _settings = None
     _connectionManager = None
     _checkArguments = None
     _htmlParser = None
@@ -47,6 +48,8 @@ class MyCraaawler:
     _url = None
     
     def __init__(self):
+        
+        self._settings = Settings.Settings()
         
         #Check the arguments
         self._checkArguments = ClassWiring.ClassWiring().getCheckArguments()
@@ -73,8 +76,8 @@ class MyCraaawler:
         links = self._htmlParser.getCorrectLinks()                  #Get the correct links
         url = self._checkArguments.getUrl()                         #Get the url (name)
         
-        if (not fileManager.isSaved(str(url) + Settings.Settings.HTML_FILE) and 
-            not fileManager.isSaved(str(url) + Settings.Settings.LINK_FILE)):
+        if (not fileManager.isSaved(self._settings.FILE_NAME + Settings.Settings.HTML_FILE) and 
+            not fileManager.isSaved(self._settings.FILE_NAME + Settings.Settings.LINK_FILE)):
             
             fileManager.saveRawToDisk(str(url) + Settings.Settings.HTML_FILE, rawCode)
             fileManager.saveLinksToDisk(str(url) + Settings.Settings.LINK_FILE, links)
@@ -82,6 +85,7 @@ class MyCraaawler:
             print "Data saved in the disk"
         else:
             #TODO check links and show differences
+            print "We already have the files"
             pass
             
         
