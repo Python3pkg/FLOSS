@@ -20,7 +20,7 @@
 
 from ConnectionManager import ConnectionManager
 from CheckArguments import CheckArguments
-from crawler.pymycraaawler.FileManager import FileManager
+from FileManager import FileManager
 
 
 '''
@@ -54,9 +54,8 @@ class ClassWiring:
         if self._checkArguments == None:
             self._checkArguments = CheckArguments()
             
-        return self._checkArguments
-
-
+        return self._checkArguments 
+    
     """ Creates if not exists the FileManager object to use along the application """
     def getFileManager (self):
         

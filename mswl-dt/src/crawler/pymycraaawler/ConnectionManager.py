@@ -44,10 +44,11 @@ class ConnectionManager:
         _opener.addheaders = [(Settings.USER_AGENT_TAG, Settings.USER_AGENT_CONTENT)]
         
         try:            
-            self._rawCode = _opener.open(url, None, self._TIMEOUT).read()
+            self._rawCode = _opener.open(url, None, self._TIMEOUT).read()      
+            print "RawCodeOriginal: " + self._rawCode      
+            
         except Exception:
             print "Exception: ", Exception.message
-            self._rawCode = None                
         
     
     """ Gets the raw code """

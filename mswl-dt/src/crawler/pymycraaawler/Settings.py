@@ -26,6 +26,9 @@ Created on 05/11/2011
 
 This class is used to set the global constants used along the entire program
 '''
+
+import os
+
 class Settings:
     
     #WebBrowser headers
@@ -41,8 +44,12 @@ class Settings:
     HTTP = "http://"
     HTTPS = "https://"
     
-    #Folder paths
-    CACHE = "cache/"
+    #data paths (folders, extensions)
+    FILE_NAME            =      "FileName"
+    CACHE_FOLDER      =      os.getcwd() + "/cache/"
+    HTML_FILE               =      ".html"
+    LINK_FILE               =      ".links"   
+    
     
     
     

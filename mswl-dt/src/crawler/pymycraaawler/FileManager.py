@@ -26,32 +26,74 @@ Created on 07/11/2011
 This class has the functionality regarding i/o
 '''
 
+from Settings import Settings
+from Log import Log
+import os  
 
 class FileManager:
+        
+    _CLASS_NAME = "FileManager"
     
-    def __init__ (self):
-        pass
+    _log = None
+    
+    def __init__ (self):    
+        self._log = Log()
     
     """ This function save to disk the given fileName and content """ 
-    def saveToDisk (self, fileName, content):
+    def saveRawToDisk (self, fileName, content):
+                    
+        if not os.path.exists(Settings.CACHE_FOLDER):
+            os.makedirs(Settings.CACHE_FOLDER)
+        
+        self._log.d(self._CLASS_NAME, "content: " + str(content))
+        fd = open (Settings.CACHE_FOLDER + Settings.FILE_NAME + Settings.HTML_FILE, 'w')
+        fd.write(str(content)   )
+        
+        fd.close()
+    
+    """ This function save to disk the given fileName and content list """ 
+    def saveLinksToDisk (self, fileName, contentList):
 
-        try:
-            fd = open (fileName, 'w')
-            fd.write (content)
+                    
+            if not os.path.exists(Settings.CACHE_FOLDER):
+                os.makedirs(Settings.CACHE_FOLDER)            
+                                    
+            fd = open (Settings.CACHE_FOLDER + Settings.FILE_NAME + Settings.LINK_FILE, 'w')
+            
+            if contentList != None:
+                for link in contentList:                
+                    fd.write(link + "\n")
             fd.close()
 
-        except IOError:
-            print "Exception ", IOError.message
+        
         
     """ this function reads a file and returns the content """    
     def readFromDisk (self, fileName):
         
         try:
-            fd = open(fileName, 'r')
+            fd = open(Settings.CACHE_FOLDER + fileName, 'r')
             content = fd.read()
             return content
         
-        except IOError:
-            print "Exception ", IOError.message
+        except IOError, ioe:
+            Log().d(self._CLASS_NAME, ioe.message)
+            return None
+            
+            
+    """ Checks if the file was previously created or not """
+    def isSaved (self, fileName):
+        
+        try:
+            fd = open(Settings.CACHE_FOLDER + fileName, 'r')
+            fd.close()                    
+            if (fd != None):                
+                return True
+            else:
+                return False            
+        except IOError, ioe:
+            return False
+            
+             
+        
 
         

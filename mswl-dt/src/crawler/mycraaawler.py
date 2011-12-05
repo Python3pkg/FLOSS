@@ -22,6 +22,8 @@
 
 from pymycraaawler import ClassWiring
 from pymycraaawler import HtmlParser
+from pymycraaawler import FileManager
+from pymycraaawler import Settings
 
 
 '''
@@ -39,6 +41,10 @@ class MyCraaawler:
     _connectionManager = None
     _checkArguments = None
     _htmlParser = None
+    _fileManager = None
+    
+    #data
+    _url = None
     
     def __init__(self):
         
@@ -48,12 +54,37 @@ class MyCraaawler:
         
         #Works with the url
         self._connectionManager = ClassWiring.ClassWiring().getConnectionManager()
-        self._connectionManager.readingRemoteFile(self._checkArguments.getUrl())
+        self._connectionManager.readingRemoteFile(self._checkArguments.getUrl())        
                 
-        #Parses the raw html coded provided
-        self._htmlParser = HtmlParser.HtmlParser(self._connectionManager.getRawCode())
-        self._htmlParser.parseLinks()        
+        #Parses the raw html coded provided    
+        self._htmlParser = HtmlParser.HtmlParser(self._connectionManager.getRawCode())        
+        self._htmlParser.parseLinks()               
+    
+        self.checkFiles()
 
+    """ Checks the files associated to the url """
+    def checkFiles(self):
+        
+        #Gets the fileManager
+        fileManager = FileManager.FileManager()        
+        
+        
+        rawCode = self._connectionManager.getRawCode()     #Get the rawCode            
+        links = self._htmlParser.getCorrectLinks()                  #Get the correct links
+        url = self._checkArguments.getUrl()                         #Get the url (name)
+        
+        if (not fileManager.isSaved(str(url) + Settings.Settings.HTML_FILE) and 
+            not fileManager.isSaved(str(url) + Settings.Settings.LINK_FILE)):
+            
+            fileManager.saveRawToDisk(str(url) + Settings.Settings.HTML_FILE, rawCode)
+            fileManager.saveLinksToDisk(str(url) + Settings.Settings.LINK_FILE, links)
+            
+            print "Data saved in the disk"
+        else:
+            #TODO check links and show differences
+            pass
+            
+        
 
 def main():
     MyCraaawler()

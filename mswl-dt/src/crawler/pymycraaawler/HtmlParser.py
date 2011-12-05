@@ -31,7 +31,11 @@ from BeautifulSoup import BeautifulSoup as Soup
 
 class HtmlParser:
         
+    #Objects
     _rawCode = None        
+    _rawLinks = []
+    _correctLinks = []
+    
     
     """ Consturctor """
     def __init__ (self, rawCode):
@@ -44,26 +48,40 @@ class HtmlParser:
         
         if (self._rawCode != None):
             soupCode = Soup(self._rawCode)
-            links = [link[Settings.HREF] for link 
-                     in soupCode.findAll(Settings.A) if link.has_key(Settings.HREF)]                                         
-            print "Links: ", links
             
+            #We get all links in raw mode (with http, wothout, etc.)
+            links = [link[Settings.HREF] for link 
+                     in soupCode.findAll(Settings.A) if link.has_key(Settings.HREF)]                        
+                                                                     
             for link in links:
-                print link
-                
-            self.getRightLinks(links)
+                self._rawLinks.append(link)
+                       
+            self.parseCorrectLinks(self._rawLinks)
         
     """ Gets the right links of the links list """
-    def getRightLinks (self, links):
+    def parseCorrectLinks (self, links):
         
         print "----- parse links ----"
                 
         if links != None or len(links)>0:
             for link in links:
                 if (str(link).startswith(Settings.HTTP) or (str(link).startswith(Settings.HTTPS))):
+                    self._correctLinks.append(link)
                     print link
              
         
+    #-------------    Getters & Setters    ------------------------------#
+    def getRawLinks (self):
+        return self._rawLinks
+        
+    def getCorrectLinks (self):
+        return self._correctLinks
+        
+    def getRawCode (self):
+        return self._rawCode
+    #-----------------------------------------------------------------------------#
+    
+    
     
         
 
