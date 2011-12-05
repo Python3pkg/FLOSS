@@ -40,7 +40,7 @@ class FileManager:
         self._log = Log()
     
     """ This function save to disk the given fileName and content """ 
-    def saveRawToDisk (self, fileName, content):
+    def saveRawToDisk (self, content):
                     
         if not os.path.exists(Settings.CACHE_FOLDER):
             os.makedirs(Settings.CACHE_FOLDER)
@@ -52,7 +52,7 @@ class FileManager:
         fd.close()
     
     """ This function save to disk the given fileName and content list """ 
-    def saveLinksToDisk (self, fileName, contentList):
+    def saveLinksToDisk (self, contentList):
 
                     
             if not os.path.exists(Settings.CACHE_FOLDER):

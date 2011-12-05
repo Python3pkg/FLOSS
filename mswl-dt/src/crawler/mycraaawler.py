@@ -19,11 +19,11 @@
     You should have received a copy of the GNU General Public License
     along with this file.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
-from pymycraaawler import ClassWiring
 from pymycraaawler import HtmlParser
 from pymycraaawler import FileManager
 from pymycraaawler import Settings
+from pymycraaawler import CheckArguments
+from pymycraaawler import ConnectionManager
 
 
 '''
@@ -52,11 +52,11 @@ class MyCraaawler:
         self._settings = Settings.Settings()
         
         #Check the arguments
-        self._checkArguments = ClassWiring.ClassWiring().getCheckArguments()
+        self._checkArguments = CheckArguments.CheckArguments()
         self._checkArguments.checkArguments()                
         
         #Works with the url
-        self._connectionManager = ClassWiring.ClassWiring().getConnectionManager()
+        self._connectionManager = ConnectionManager.ConnectionManager()
         self._connectionManager.readingRemoteFile(self._checkArguments.getUrl())        
                 
         #Parses the raw html coded provided    
@@ -73,14 +73,13 @@ class MyCraaawler:
         
         
         rawCode = self._connectionManager.getRawCode()     #Get the rawCode            
-        links = self._htmlParser.getCorrectLinks()                  #Get the correct links
-        url = self._checkArguments.getUrl()                         #Get the url (name)
+        links = self._htmlParser.getCorrectLinks()                  #Get the correct links        
         
-        if (not fileManager.isSaved(self._settings.FILE_NAME + Settings.Settings.HTML_FILE) and 
-            not fileManager.isSaved(self._settings.FILE_NAME + Settings.Settings.LINK_FILE)):
+        if (not fileManager.isSaved(self._settings.FILE_NAME + self._settings.HTML_FILE) and 
+            not fileManager.isSaved(self._settings.FILE_NAME + self._settings.LINK_FILE)):
             
-            fileManager.saveRawToDisk(str(url) + Settings.Settings.HTML_FILE, rawCode)
-            fileManager.saveLinksToDisk(str(url) + Settings.Settings.LINK_FILE, links)
+            fileManager.saveRawToDisk(rawCode)
+            fileManager.saveLinksToDisk(links)
             
             print "Data saved in the disk"
         else:
