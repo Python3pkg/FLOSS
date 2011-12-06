@@ -55,6 +55,7 @@ class HtmlParser:
                                                                      
             for link in links:
                 self._rawLinks.append(link)
+                print link
                        
             self.parseCorrectLinks(self._rawLinks)
         

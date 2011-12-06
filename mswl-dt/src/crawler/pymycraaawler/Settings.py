@@ -45,7 +45,7 @@ class Settings:
     HTTPS = "https://"
     
     #data paths (folders, extensions)
-    FILE_NAME            =      "FileName"
+    FILE_NAME_DEFAULT            =      "FileName"
     CACHE_FOLDER      =      os.getcwd() + "/cache/"
     HTML_FILE               =      ".html"
     LINK_FILE               =      ".links"   

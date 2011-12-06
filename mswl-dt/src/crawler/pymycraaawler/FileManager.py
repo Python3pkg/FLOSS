@@ -40,25 +40,31 @@ class FileManager:
         self._log = Log()
     
     """ This function save to disk the given fileName and content """ 
-    def saveRawToDisk (self, content):
+    def saveRawToDisk (self, content, fileName=None):
                     
         if not os.path.exists(Settings.CACHE_FOLDER):
             os.makedirs(Settings.CACHE_FOLDER)
         
-        self._log.d(self._CLASS_NAME, "content: " + str(content))
-        fd = open (Settings.CACHE_FOLDER + Settings.FILE_NAME + Settings.HTML_FILE, 'w')
+        if fileName == None:
+            fileName = Settings.FILE_NAME_DEFAULT
+            
+        #self._log.d(self._CLASS_NAME, "content: " + str(content))
+        fd = open (Settings.CACHE_FOLDER + fileName + Settings.HTML_FILE, 'w')
         fd.write(str(content)   )
         
         fd.close()
     
     """ This function save to disk the given fileName and content list """ 
-    def saveLinksToDisk (self, contentList):
+    def saveLinksToDisk (self, contentList, fileName=None):
 
                     
             if not os.path.exists(Settings.CACHE_FOLDER):
-                os.makedirs(Settings.CACHE_FOLDER)            
+                os.makedirs(Settings.CACHE_FOLDER)     
+                
+            if fileName == None:
+                fileName = Settings.FILE_NAME_DEFAULT       
                                     
-            fd = open (Settings.CACHE_FOLDER + Settings.FILE_NAME + Settings.LINK_FILE, 'w')
+            fd = open (Settings.CACHE_FOLDER + fileName + Settings.LINK_FILE, 'w')
             
             if contentList != None:
                 for link in contentList:                
@@ -68,10 +74,12 @@ class FileManager:
         
         
     """ this function reads a file and returns the content """    
-    def readFromDisk (self, fileName):
+    def readFromDisk (self, extension, fileName=None):
         
         try:
-            fd = open(Settings.CACHE_FOLDER + fileName, 'r')
+            if fileName == None:
+                fileName = Settings.FILE_NAME_DEFAULT
+            fd = open(Settings.CACHE_FOLDER + fileName + extension, 'r')
             content = fd.read()
             return content
         

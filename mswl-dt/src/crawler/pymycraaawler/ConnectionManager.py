@@ -45,7 +45,7 @@ class ConnectionManager:
         
         try:            
             self._rawCode = _opener.open(url, None, self._TIMEOUT).read()      
-            print "RawCodeOriginal: " + self._rawCode      
+           #print "RawCodeOriginal: " + self._rawCode      
             
         except Exception:
             print "Exception: ", Exception.message
