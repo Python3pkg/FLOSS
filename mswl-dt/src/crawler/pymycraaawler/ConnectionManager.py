@@ -20,6 +20,7 @@
 
 from Settings import Settings
 import urllib2
+from urlparse import urlparse
 
 '''
 Created on 05/11/2011
@@ -33,33 +34,36 @@ class ConnectionManager:
     
     #Timeout to use un the remote file reading
     _TIMEOUT = 5000
-    
-    _rawCode = None
-    
+        
     """This function reads the website passed by parameter and sets the 
     rawCode parameter with the html code in brute """
-    def readingRemoteFile(self, url):
+    def readRemoteUrl(self, url):
         
         _opener = urllib2.build_opener()
         _opener.addheaders = [(Settings.USER_AGENT_TAG, Settings.USER_AGENT_CONTENT)]
         
         try:            
-            self._rawCode = _opener.open(url, None, self._TIMEOUT).read()      
-           #print "RawCodeOriginal: " + self._rawCode      
+            rawCode = _opener.open(url, None, self._TIMEOUT).read()                  
+            return rawCode      
             
         except Exception:
             print "Exception: ", Exception.message
+            return None
         
+    """ Parses the complete url and returns itself parsed """
+    def parseUrl (self, url):
+        
+        urlComponents =  urlparse(url)
+        return urlComponents
+            
     
-    """ Gets the raw code """
-    def getRawCode (self):
-        return self._rawCode
+    """ Parses the complete url and returns the hostName """
+    def getHostName (self, url):
         
-        
-    """ This function is used to visit all links provided in the list recursively until
-    reach the deep specification """
-    def visitAllLinks (self, links, deep):        
-        pass
+        urlComponents = self.parseUrl(url)
+        return urlComponents.netloc
+ 
+                    
             
             
         

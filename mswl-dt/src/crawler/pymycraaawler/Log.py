@@ -31,15 +31,10 @@ class Log:
     
     _DEBUG = True
     
-    """ Consturctor """
-    def __init__ (self):
-        pass
-        
-        
     """ Print a log trace if the DEBUG flag is true """            
     def d (self, className, message):
             if (self._DEBUG):
-                print className + str(message)
+                print "<<< " + className + " >>> \n---" + str(message) + "\n"
         
 
             

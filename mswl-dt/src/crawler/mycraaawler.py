@@ -20,13 +20,11 @@
     along with this file.  If not, see <http://www.gnu.org/licenses/>.
 '''
 from pymycraaawler import HtmlParser
-from pymycraaawler import FileManager
 from pymycraaawler import Settings
 from pymycraaawler import CheckArguments
 from pymycraaawler import ConnectionManager
 from pymycraaawler import Log
 
-import difflib
 
 '''
 Created on 05/11/2011
@@ -41,85 +39,63 @@ class MyCraaawler:
     
     _CLASS_NAME = "MyCraaawler"
     
-    #Objects to use
+    #Manager objects      
     _settings = None
-    _connectionManager = None
-    _checkArguments = None
-    _htmlParser = None
-    _fileManager = None
-    
     _log = None
     
-    #data
-    _url = None
     
+    """ Constructor """
     def __init__(self):
         
+        #Initializes the objects to use in settings and log
         self._settings = Settings.Settings()
         self._log = Log.Log()
         
         #Check the arguments
-        self._checkArguments = CheckArguments.CheckArguments()
-        self._checkArguments.checkArguments()                
+        checkArguments = CheckArguments.CheckArguments()
+        (url, deep) = checkArguments.checkArguments()                
         
         #Works with the url
-        self._connectionManager = ConnectionManager.ConnectionManager()
-        self._connectionManager.readingRemoteFile(self._checkArguments.getUrl())        
+        connectionManager = ConnectionManager.ConnectionManager()
+        rawCode = connectionManager.readRemoteUrl(url)        
                 
-        #Parses the raw html coded provided    
-        self._htmlParser = HtmlParser.HtmlParser(self._connectionManager.getRawCode())        
-        self._htmlParser.parseLinks()               
-    
-        self.checkFiles()
+        #Processes raw html coded provided
+        htmlParser = HtmlParser.HtmlParser()                              
+        links = htmlParser.parseLinks(rawCode, url)                   
+                
+        self.visitLinks(links, deep, 0)
 
-    """ Checks the files associated to the url """
-    def checkFiles(self):
+    """ Visits the links of the website which we get """
+    def visitLinks (self, links, deep, index):                        
         
-        #Gets the fileManager
-        fileManager = FileManager.FileManager()                
-        
-        rawCode = self._connectionManager.getRawCode()     #Get the rawCode            
-        links = self._htmlParser.getCorrectLinks()                  #Get the correct links        
-        
-        if (not fileManager.isSaved(self._settings.FILE_NAME_DEFAULT + self._settings.HTML_FILE) and 
-            not fileManager.isSaved(self._settings.FILE_NAME_DEFAULT + self._settings.LINK_FILE)):
-            
-            fileManager.saveRawToDisk(rawCode)
-            fileManager.saveLinksToDisk(links)
+        #case base
+        if (links == None):
+            self._log.d(self._CLASS_NAME, "Return links == None")
+            return
+        elif (index > len(links) or deep < 0):
+            self._log.d(self._CLASS_NAME, "Return index > links or deep < 0")
+            return
+        elif (index < len(links) and deep >= 0):
+            self._log.d(self._CLASS_NAME, "1. Deep: " + str(deep) + "\tlink: " + str(links[index]))
+            self.visitLinks(links, deep, (index+1))                        
+        #recursive case
+        else:                        
+            connectionManager = ConnectionManager.ConnectionManager()
+            htmlParser = HtmlParser.HtmlParser()
                         
-        else:
-            #TODO check links and show differences
-            print "We already have the files"
-            self.compareFiles(rawCode)
+            url = links[index]
+            self._log.d(self._CLASS_NAME, "2.Deep: " + str(deep) + "\tlink: " + str(url))
+            
+            rawCode = connectionManager.readRemoteUrl(url)
+            hostName = connectionManager.getHostName(url)
+            newLinks = htmlParser.parseLinks(rawCode, hostName)
+            
+            self.visitLinks(newLinks, deep-1, 0)
+            
+            
             
         
-    """ Compare the two different url contents """    
-    def compareFiles (self, newContent):
         
-        fileManager = FileManager.FileManager()
-        oldContent = fileManager.readFromDisk(self._settings.HTML_FILE)
-        
-        newContent = newContent.splitlines()
-        oldContent = str(oldContent).splitlines()
-        
-        self._log.d(self._CLASS_NAME, "newContent: " + str(len(newContent)))
-        self._log.d(self._CLASS_NAME, "oldContent: " + str(len(oldContent)))
-        
-        #Diff manual
-        outFile = open(self._settings.CACHE_FOLDER + "results.txt", "w")
-        x = 0
-        for i in oldContent:
-            if i != newContent[x]:
-                outFile.write(i+" <> "+newContent[x])
-            x += 1
- 
-        outFile.close()
-        
-        """ Diff Usando difflib
-        d = difflib.Differ()
-        diff = d.compare(oldContent, newContent)
-        print '\n'.join(diff)
-        """            
         
 
         

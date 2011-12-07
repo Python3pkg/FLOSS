@@ -28,34 +28,20 @@ Created on 05/11/2011
 This class has all methods to use in the arguments parse funtionality
 '''
 class CheckArguments:
-    
-    
-    _url = None         #To set the url
-    _deep = 1           #To set the deep in the search
-    
+        
     """ This method checks the arguments which we have passed to the stdio """
     def checkArguments(self):
         
-        parser = argparse.ArgumentParser(description=  "Let's craaawl the Internet")
-                
-        parser.add_argument("url", nargs=1, default=1, help="target URL")
-        
+        parser = argparse.ArgumentParser(description=  "Let's craaawl the Internet")                
+        parser.add_argument("url", nargs=1, default=1, help="target URL")        
         parser.add_argument("-n", "--number-of-levels", type=int, default=1, 
-                            help="how deep the craaawl will go")
-        
+                            help="how deep the craaawl will go")        
         args = parser.parse_args()
                      
-        self._deep = args.__getattribute__("number_of_levels")                    
-        self._url = args.__getattribute__("url")[0]         #Gets the 1st element (the url)
+        deep = args.__getattribute__("number_of_levels")                    
+        url = args.__getattribute__("url")[0]         #Gets the 1st element (the url)
                    
-        
-        
-    ### -----------------------------     Getters & Setters        -------------------------------###
-    def getUrl (self):
-        return self._url
-    
-    def getDeep (self):
-        return self._deep
+        return (url, deep)                   
         
     
         
