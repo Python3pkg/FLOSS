@@ -23,42 +23,43 @@ from Settings import Settings
 from BeautifulSoup import BeautifulSoup as Soup
 
 
-'''
-Created on 06/11/2011
-
-@author: Cesar Valiente Gordo
-@mail: cesar.valiente@gmail.com
-
-This class is used to parser an entire html document and get the objects
-we want to use
-'''
 class HtmlParser:
+    ''' Created on 06/11/2011
+    
+    @author: Cesar Valiente Gordo
+    @mail: cesar.valiente@gmail.com
+    
+    This class is used to parser an entire html document and get the objects
+    we want to use '''
     
     _CLASS_NAME = "HtmlParser"
             
         
     def parseLinks (self, rawCode, hostName):
-        """ Parses the links of the used rawCode into a list """                            
-        if (rawCode != None):
-            soupCode = Soup(rawCode)
-            
-            #We get all links in raw mode (with http, without, ... all!)
-            links = [link[Settings.HREF] for link 
-                     in soupCode.findAll(Settings.A) if link.has_key(Settings.HREF)]                        
-                        
-            rawLinks = []                                             
-            #Adds the links to the list                                                                     
-            for link in links:
-                rawLinks.append(link)
-                #print link
-                                                       
-            #Parse the list with raw links to links with the correct host
-            correctLinks = self.createCorrectLinks (links, hostName)
-            #Log().d(self._CLASS_NAME, "Links to parse from hostName: " + hostName)
-            #for link in correctLinks:
-            #    print link
+        """ Parses the links of the used rawCode into a list """
+        
+        try:                            
+            if (rawCode != None):
+                soupCode = Soup(rawCode)
                 
-            return correctLinks
+                #We get all links in raw mode (with http, without, ... all!)
+                links = [link[Settings.HREF] for link 
+                         in soupCode.findAll(Settings.A) if link.has_key(Settings.HREF)]                        
+                            
+                rawLinks = []                                                     
+                #Adds the links to the list                                                                     
+                for link in links:
+                    rawLinks.append(link)                
+                                                           
+                #Parse the list with raw links to links with the correct host
+                correctLinks = self.createCorrectLinks (links, hostName)
+                
+                return correctLinks
+            
+        except UnicodeEncodeError:
+            return None
+        except Exception:
+            return None
                                                                                           
     def createCorrectLinks (self, rawLinks, hostName):
         """  Creates the correct links from the raw ones """
@@ -74,7 +75,9 @@ class HtmlParser:
                     correctLinks.append(link)
                     
                 return correctLinks
-        except UnicodeEncodeError, e:
+        except UnicodeEncodeError:
+            return None
+        except Exception:
             return None
                                                                
     

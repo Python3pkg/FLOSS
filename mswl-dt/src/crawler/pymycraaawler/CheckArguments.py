@@ -16,19 +16,21 @@
     You should have received a copy of the GNU General Public License
     along with this file.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
+import sys
 import argparse
+from Log import Log
+ 
 
-'''
-Created on 05/11/2011
-
-@author: Cesar Valiente Gordo
-@mail: cesar.valiente@gmail.com
-
-This class has all methods to use in the arguments parse funtionality
-'''
 class CheckArguments:
-            
+    ''' Created on 05/11/2011
+    
+    @author: Cesar Valiente Gordo
+    @mail: cesar.valiente@gmail.com
+    
+    This class has all methods to use in the arguments parse funtionality '''
+    
+    _CLASS_NAME = "CheckArguments"
+                                
     def checkArguments(self):
         """ This method checks the arguments which we have passed to the stdio """
         
@@ -40,6 +42,11 @@ class CheckArguments:
                      
         deep = args.__getattribute__("number_of_levels")                    
         url = args.__getattribute__("url")[0]         #Gets the 1st element (the url)
+                                           
+        #Checks the correct deep                                        
+        if (deep <1):
+            Log().d(self._CLASS_NAME, "You must provide a deep bigger than 0")
+            sys.exit()                            
                    
         return (url, deep)                   
         

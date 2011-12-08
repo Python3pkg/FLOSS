@@ -22,18 +22,16 @@ from Settings import Settings
 import urllib2
 from urlparse import urlparse
 
-'''
-Created on 05/11/2011
-
-@author: Cesar Valiente Gordo
-@mail: cesar.valiente@gmail.com
-
-This class has all methods to use in the connection with servers and urls
-'''
 class ConnectionManager:
+    ''' Created on 05/11/2011
     
-    #Timeout to use un the remote file reading
-    _TIMEOUT = 5000
+    @author: Cesar Valiente Gordo
+    @mail: cesar.valiente@gmail.com
+    
+    This class has all methods to use in the connection with servers and urls '''
+    
+    #Timeout to use un the remote file reading (in seconds)
+    _TIMEOUT = 5    
             
     def readRemoteUrl(self, url):
         """This function reads the website passed by parameter and sets the 
@@ -46,8 +44,9 @@ class ConnectionManager:
             rawCode = _opener.open(url, None, self._TIMEOUT).read()                  
             return rawCode      
             
-        except Exception:
-            print "Exception: ", Exception.message
+        except BaseException:
+            return None
+        except Exception:            
             return None
             
             

@@ -17,24 +17,25 @@
     along with this file.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-
-'''
-Created on 04/12/2011
-
-@author: Cesar Valiente Gordo
-@mail: cesar.valiente@gmail.com
-
-This class is used to print log traces 
-'''
-
 class Log:
+    ''' Created on 04/12/2011
     
+    @author: Cesar Valiente Gordo
+    @mail: cesar.valiente@gmail.com
+    
+    This class is used to print log traces  '''    
+    
+    #Booleans to allow print traces and if we can show the class name
     _DEBUG = True
+    _CLASS_NAME = False
     
     def d (self, className, message):
         """ Print a log trace if the DEBUG flag is true """            
         if (self._DEBUG):
-            print str(message)
+            if (self._CLASS_NAME):
+                print str(className) + "\t" + str(message)
+            else:
+                print str(message)
         
 
             
