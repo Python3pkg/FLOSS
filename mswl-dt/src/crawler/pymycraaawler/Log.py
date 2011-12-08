@@ -31,10 +31,10 @@ class Log:
     
     _DEBUG = True
     
-    """ Print a log trace if the DEBUG flag is true """            
     def d (self, className, message):
-            if (self._DEBUG):
-                print "<<< " + className + " >>> \n---" + str(message) + "\n"
+        """ Print a log trace if the DEBUG flag is true """            
+        if (self._DEBUG):
+            print str(message)
         
 
             

@@ -37,9 +37,8 @@ class HtmlParser:
     _CLASS_NAME = "HtmlParser"
             
         
-    """ Parses the links of the used rawCode into a list """
-    def parseLinks (self, rawCode, hostName):                
-                
+    def parseLinks (self, rawCode, hostName):
+        """ Parses the links of the used rawCode into a list """                            
         if (rawCode != None):
             soupCode = Soup(rawCode)
             
@@ -55,27 +54,28 @@ class HtmlParser:
                                                        
             #Parse the list with raw links to links with the correct host
             correctLinks = self.createCorrectLinks (links, hostName)
-            Log().d(self._CLASS_NAME, "Links to parse from hostName: " + hostName)
-            for link in correctLinks:
-                print link
+            #Log().d(self._CLASS_NAME, "Links to parse from hostName: " + hostName)
+            #for link in correctLinks:
+            #    print link
                 
             return correctLinks
-                                                    
-             
-             
-    """  Creates the correct links from the raw ones """            
+                                                                                          
     def createCorrectLinks (self, rawLinks, hostName):
+        """  Creates the correct links from the raw ones """
         
-        if rawLinks != None and len(rawLinks)>0:
-            correctLinks = []
-            
-            for link in rawLinks:                
-                if (str(link).find(Settings.HTTP) != 0) and (str(link).find(Settings.HTTPS) != 0):                    
-                    link = hostName + str(link)
-                                        
-                correctLinks.append(link)
+        try:
+            if rawLinks != None and len(rawLinks)>0:
+                correctLinks = []
                 
-            return correctLinks
+                for link in rawLinks:                
+                    if (str(link).find(Settings.HTTP) != 0) and (str(link).find(Settings.HTTPS) != 0):                    
+                        link = hostName + str(link)
+                                            
+                    correctLinks.append(link)
+                    
+                return correctLinks
+        except UnicodeEncodeError, e:
+            return None
                                                                
     
     

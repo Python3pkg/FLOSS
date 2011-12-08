@@ -34,11 +34,11 @@ class ConnectionManager:
     
     #Timeout to use un the remote file reading
     _TIMEOUT = 5000
-        
-    """This function reads the website passed by parameter and sets the 
-    rawCode parameter with the html code in brute """
+            
     def readRemoteUrl(self, url):
-        
+        """This function reads the website passed by parameter and sets the 
+        rawCode parameter with the html code in brute """
+                
         _opener = urllib2.build_opener()
         _opener.addheaders = [(Settings.USER_AGENT_TAG, Settings.USER_AGENT_CONTENT)]
         
@@ -49,17 +49,16 @@ class ConnectionManager:
         except Exception:
             print "Exception: ", Exception.message
             return None
-        
-    """ Parses the complete url and returns itself parsed """
+            
+            
     def parseUrl (self, url):
-        
+        """ Parses the complete url and returns itself parsed """    
         urlComponents =  urlparse(url)
         return urlComponents
             
-    
-    """ Parses the complete url and returns the hostName """
-    def getHostName (self, url):
         
+    def getHostName (self, url):
+        """ Parses the complete url and returns the hostName """        
         urlComponents = self.parseUrl(url)
         return urlComponents.netloc
  

@@ -28,9 +28,9 @@ Created on 05/11/2011
 This class has all methods to use in the arguments parse funtionality
 '''
 class CheckArguments:
-        
-    """ This method checks the arguments which we have passed to the stdio """
+            
     def checkArguments(self):
+        """ This method checks the arguments which we have passed to the stdio """
         
         parser = argparse.ArgumentParser(description=  "Let's craaawl the Internet")                
         parser.add_argument("url", nargs=1, default=1, help="target URL")        

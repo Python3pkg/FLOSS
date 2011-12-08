@@ -24,7 +24,7 @@ from pymycraaawler import Settings
 from pymycraaawler import CheckArguments
 from pymycraaawler import ConnectionManager
 from pymycraaawler import Log
-
+import sys
 
 '''
 Created on 05/11/2011
@@ -39,59 +39,110 @@ class MyCraaawler:
     
     _CLASS_NAME = "MyCraaawler"
     
-    #Manager objects      
+    #Manager objects
+    _connectionManager = None
+    _htmlParser = None
+    
+    #Constants and log      
     _settings = None
     _log = None
     
-    
-    """ Constructor """
+    _deep = None
+            
     def __init__(self):
-        
+        """ Constructor """
         #Initializes the objects to use in settings and log
         self._settings = Settings.Settings()
         self._log = Log.Log()
+                
+        """
+        #Initialize the managers
+        self._connectionManager = ConnectionManager.ConnectionManager()
+        self._htmlParser = HtmlParser.HtmlParser()            
+        
+        #---------------------------------------------------------------#
         
         #Check the arguments
         checkArguments = CheckArguments.CheckArguments()
-        (url, deep) = checkArguments.checkArguments()                
+        (url, self._deep) = checkArguments.checkArguments()                
         
-        #Works with the url
-        connectionManager = ConnectionManager.ConnectionManager()
-        rawCode = connectionManager.readRemoteUrl(url)        
+        #Works with the url        
+        rawCode = self._connectionManager.readRemoteUrl(url)        
                 
-        #Processes raw html coded provided
-        htmlParser = HtmlParser.HtmlParser()                              
-        links = htmlParser.parseLinks(rawCode, url)                   
-                
-        self.visitLinks(links, deep, 0)
+        #Processes raw html coded provided                                    
+        links = self._htmlParser.parseLinks(rawCode, url)                   
 
-    """ Visits the links of the website which we get """
-    def visitLinks (self, links, deep, index):                        
+        self.deep2 = self._deep
         
+        self.visitLinksRecursively(links, self._deep, 0)        
+        """
+        
+        #Alternative offline version
+        deep = 3
+        links = self.loadFile()
+        
+        self._log.d(self._CLASS_NAME, "links: " + str(links) + "\nlen(links): " + str(len(links)))
+        
+        self.visitLinksRecursively(links, deep, 0)
+        
+
+
+    def visitLinksRecursively (self, links, deep, index):
+        """ Visits the links of the website which we get """
+                                                                    
+        self._log.d(self._CLASS_NAME, "Init. Index: " + str(index) + " deep: " 
+                    + str(deep) + " len(list): " + str(len(links)))
         #case base
-        if (links == None):
-            self._log.d(self._CLASS_NAME, "Return links == None")
-            return
-        elif (index > len(links) or deep < 0):
-            self._log.d(self._CLASS_NAME, "Return index > links or deep < 0")
-            return
-        elif (index < len(links) and deep >= 0):
-            self._log.d(self._CLASS_NAME, "1. Deep: " + str(deep) + "\tlink: " + str(links[index]))
-            self.visitLinks(links, deep, (index+1))                        
-        #recursive case
-        else:                        
-            connectionManager = ConnectionManager.ConnectionManager()
-            htmlParser = HtmlParser.HtmlParser()
+        if (index == len(links)):
+            self._log.d(self._CLASS_NAME,  "Case1. deep:  " + str(deep) + " index: "
+                         + str(index) + " len(list): " + str(len(links)))
+            pass
                         
+        elif (index < len(links) and deep == 0):            
+            
+            index = index +1
             url = links[index]
-            self._log.d(self._CLASS_NAME, "2.Deep: " + str(deep) + "\tlink: " + str(url))
+            self._log.d(self._CLASS_NAME,  "Case2. deep:  " + str(deep) + " index: " 
+                        + str(index) + " len(list): " + str(len(links)) +  " -->\tlink: " + str(url))                                    
+            #newLinks = self.getNewLinks(url)
+            newLinks = self.loadFile()                                    
+            self.visitLinksRecursively(newLinks, deep, index +1)
+                                            
+        elif (index < len(links) and deep > 0):                                 
+                    
+            url = links[index]
+            self._log.d(self._CLASS_NAME,  "Case3. deep:  " + str(deep) + " index: "
+                         + str(index) + " len(list): " + str(len(links)) +  " -->\tlink: " + str(url))            
+            #newLinks = self.getNewLinks(url)
+            newLinks = self.loadFile()        
+            self.visitLinksRecursively(newLinks, deep-1, 0)
             
-            rawCode = connectionManager.readRemoteUrl(url)
-            hostName = connectionManager.getHostName(url)
-            newLinks = htmlParser.parseLinks(rawCode, hostName)
+            self._log.d(self._CLASS_NAME, "visiting the new list. Deep: " + str(deep) 
+                         + " len(list): " + str(len(links)) +  " Index: " + str(index+1))
+            self.visitLinksRecursively(newLinks, deep, index+1)
+                                    
+                                                                                                            
+    def getNewLinks (self, url):
+        """ This function retrieves the new links of the website passed by param """        
+        rawCode = self._connectionManager.readRemoteUrl(url)
+        hostName = self._connectionManager.getHostName(url)
+        newLinks = self._htmlParser.parseLinks(rawCode, hostName)
+        
+        return newLinks
+                        
+                        
+    #-----------------    To use just for offline mode    ---------------------------#
+    def loadFile (self):                
+        fd = open("pymycraaawler/links.txt", "r")
+        content = fd.readlines()
+        fd.close()                  
+        
+        newLinks = []
+        for line in content:
+            newLinks.append(line)
             
-            self.visitLinks(newLinks, deep-1, 0)
-            
+        return newLinks
+               
             
             
         
