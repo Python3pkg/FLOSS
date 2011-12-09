@@ -10,12 +10,12 @@ Created on 25/09/2011
 
 from setuptools import setup, find_packages
 
-setup (name = "MyCraaawler",
+setup (name = "Cesar Valiente WebCrawler",
     version = "1.0",
     packages = find_packages(),
-    scripts = ['mycraaawler'],
+    scripts = ['mycraaawler.py'],
     install_requires = ['BeautifulSoup'],
-    package_data = {'pymycraaawler':[''],},
+    package_data = {'pymycraaawler/':[''],},
     author = "Cesar Valiente Gordo",
     author_email = "cesar.valiente@gmail.com",
     description = "WebCrawler for the  Development & Tools subject of the M.Sc. on Free Software",
@@ -23,7 +23,8 @@ setup (name = "MyCraaawler",
     keywords = "webcrawler",
     url = "https://github.com/CesarValiente/FLOSS",
     long_description = "WebCrawler for the  Development & Tools subject of the M.Sc. on Free Software",
-    download_url = "",)
+    download_url = "http://pypi.python.org/pypi/MyCraaawler/1.0",)
+
 
 #--- Remove this if you have problems to make the binary package and the registration ---#
 """ Steps:
