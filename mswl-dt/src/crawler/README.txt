@@ -18,3 +18,8 @@ This project make use the next libraries besides the standard ones:
 	
 --------------------------------------------------------------------------------
 
+You can find this project ready to install and use in this url (Pypi):
+
+http://pypi.python.org/pypi/MyCraaawler/1.0
+
+-----------------------------------------------------------------------------------
