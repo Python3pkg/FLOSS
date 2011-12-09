@@ -28,7 +28,9 @@ setup (name = "MyCraaawler",
 #--- Remove this if you have problems to make the binary package and the registration ---#
 """ Steps:
     In the mycraaawler.py directory (the one with the setup.py file, this file)
-    >./setup.py sdist             (to create the binary package)
     >./setup.py register        (to register in pypi, if you don't have an account first create it with the option
                                             and after run again this command to register the app)
-"""                                            
+    >./setup.py sdist upload             (to create the source package and upload to pypi website)
+    >./setup.py bdist upload            (to create the binary package and upload to pypi website)
+    
+"""                                        
