@@ -10,7 +10,7 @@ Created on 25/09/2011
 
 from setuptools import setup, find_packages
 
-setup (name = "Cesar Valiente WebCrawler",
+setup (name = "CesarValiente_MSWL_WebCrawler",
     version = "1.0",
     packages = find_packages(),
     scripts = ['mycraaawler.py'],
@@ -23,7 +23,7 @@ setup (name = "Cesar Valiente WebCrawler",
     keywords = "webcrawler",
     url = "https://github.com/CesarValiente/FLOSS",
     long_description = "WebCrawler for the  Development & Tools subject of the M.Sc. on Free Software",
-    download_url = "http://pypi.python.org/pypi/MyCraaawler/1.0",)
+    download_url = "http://pypi.python.org/pypi/CesarValiente_MSWL_WebCrawler/1.0",)
 
 
 #--- Remove this if you have problems to make the binary package and the registration ---#
