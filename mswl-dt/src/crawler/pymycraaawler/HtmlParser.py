@@ -18,8 +18,8 @@
 '''
 
 #Imports
-from Log import Log
-from Settings import Settings
+from .Log import Log
+from .Settings import Settings
 from BeautifulSoup import BeautifulSoup as Soup
 
 
@@ -44,7 +44,7 @@ class HtmlParser:
                 
                 #We get all links in raw mode (with http, without, ... all!)
                 links = [link[Settings.HREF] for link 
-                         in soupCode.findAll(Settings.A) if link.has_key(Settings.HREF)]                        
+                         in soupCode.findAll(Settings.A) if Settings.HREF in link]                        
                             
                 rawLinks = []                                                     
                 #Adds the links to the list                                                                     

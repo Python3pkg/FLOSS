@@ -33,9 +33,9 @@ class Log:
         """ Print a log trace if the DEBUG flag is true """            
         if (self._DEBUG):
             if (self._CLASS_NAME):
-                print str(className) + "\t" + str(message)
+                print(str(className) + "\t" + str(message))
             else:
-                print str(message)
+                print(str(message))
         
 
             

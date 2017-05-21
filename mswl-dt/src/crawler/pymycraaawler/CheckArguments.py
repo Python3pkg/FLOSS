@@ -18,7 +18,7 @@
 '''
 import sys
 import argparse
-from Log import Log
+from .Log import Log
  
 
 class CheckArguments:

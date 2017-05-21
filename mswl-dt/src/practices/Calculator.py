@@ -39,7 +39,7 @@ class Calculator:
         if (op1 != None and operation != None and op2 != None):
             self.makingCalc(op1, operation, op2)
         else:
-            print "Wrong parameters"
+            print("Wrong parameters")
             
     
     ''' This function checks the parameters passed in the standard input '''
@@ -55,22 +55,22 @@ class Calculator:
             else:
                 return (None, None, None)
         except ValueError:
-            print "ValueError: " + ValueError.message
+            print("ValueError: " + ValueError.message)
         except Exception:
-            print "Exception: " + Exception.message
+            print("Exception: " + Exception.message)
         else:
             return (None, None, None)
 
     '''This function calculates the operation '''
     def makingCalc (self, op1, operation, op2):
         if operation == "-":
-            print (op1 - op2)
+            print((op1 - op2))
         elif operation == "+":
-            print (op1 + op2)
+            print((op1 + op2))
         elif operation == "*":
-            print (op1 * op2)
+            print((op1 * op2))
         elif operation == "/":
-            print (op1 / op2)
+            print((op1 / op2))
 
 def main():
     Calculator()

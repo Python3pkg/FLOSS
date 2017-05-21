@@ -49,7 +49,7 @@ class Prac1:
             return linesList
             
         except IOError:
-            print "Error to open file"
+            print("Error to open file")
             return None
         
     '''This function parse the list and write into the standard output the desired 
@@ -60,10 +60,10 @@ class Prac1:
         try:
             for item in linesList:
                 list = string.split(item, DELIM)
-                print (list[0] + " -> " + list[-1].strip())
+                print((list[0] + " -> " + list[-1].strip()))
         
         except Exception:
-            print "Exception: " + Exception.message
+            print("Exception: " + Exception.message)
             
 
 def main():

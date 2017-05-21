@@ -41,7 +41,7 @@ class Prac2:
         if userName != None:
             self.checkUser(userName)
         else:
-            print "Wrong params"
+            print("Wrong params")
 
     ''' This function checks the parameters passed in the standard input '''
     def checkParams(self):
@@ -61,7 +61,7 @@ class Prac2:
             return linesList
            
         except IOError:
-            print "Error to open file"
+            print("Error to open file")
             return None
 
     '''This function parse the list and write into the standard output the desired 
@@ -77,7 +77,7 @@ class Prac2:
                  
             return myDictionary                
         except Exception:
-            print "Exception: " + Exception.message
+            print("Exception: " + Exception.message)
             return None
 
     '''This function check the dictionay and the userName to get the userShell'''
@@ -87,9 +87,9 @@ class Prac2:
         if myDictionary != None:
             try:
                 userShell = myDictionary[userName]
-                print userName + " ->" + userShell
+                print(userName + " ->" + userShell)
             except KeyError:
-                print "The used user doesn't have any shell associated"
+                print("The used user doesn't have any shell associated")
 
 def main():
     Prac2()

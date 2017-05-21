@@ -18,9 +18,9 @@
 '''
 
 
-from Settings import Settings
-import urllib2
-from urlparse import urlparse
+from .Settings import Settings
+import urllib.request, urllib.error, urllib.parse
+from urllib.parse import urlparse
 
 class ConnectionManager:
     ''' Created on 05/11/2011
@@ -37,7 +37,7 @@ class ConnectionManager:
         """This function reads the website passed by parameter and sets the 
         rawCode parameter with the html code in brute """
                 
-        _opener = urllib2.build_opener()
+        _opener = urllib.request.build_opener()
         _opener.addheaders = [(Settings.USER_AGENT_TAG, Settings.USER_AGENT_CONTENT)]
         
         try:            
